@@ -1,0 +1,122 @@
+// flow weak
+
+import React, {
+  PureComponent
+}                         from 'react';
+import PropTypes          from 'prop-types';
+import {
+  AnimatedView,
+  StatsCard,
+  EarningGraph,
+  WorkProgress
+}                         from '../../components';
+
+class Home extends PureComponent {
+  static propTypes = {
+    earningGraphLabels:   PropTypes.array,
+    earningGraphDatasets: PropTypes.array,
+    teamMatesIsFetching:  PropTypes.bool,
+    teamMates:            PropTypes.arrayOf(
+      PropTypes.shape({
+        picture:      PropTypes.string,
+        firstname:    PropTypes.string,
+        lastname:     PropTypes.string,
+        profile:      PropTypes.string,
+        profileColor: PropTypes.oneOf(['danger', 'warning', 'info', 'success'])
+      })
+    ),
+    actions: PropTypes.shape({
+      enterHome: PropTypes.func,
+      leaveHome: PropTypes.func,
+      fetchEarningGraphDataIfNeeded:  PropTypes.func,
+      fetchTeamMatesDataIfNeeded:     PropTypes.func
+    })
+  };
+
+  componentWillMount() {
+    const { actions: { enterHome } } = this.props;
+    enterHome();
+  }
+
+  componentDidMount() {
+    const {
+      actions: {
+        fetchEarningGraphDataIfNeeded,
+        fetchTeamMatesDataIfNeeded
+      }
+    } = this.props;
+
+    fetchEarningGraphDataIfNeeded();
+    fetchTeamMatesDataIfNeeded();
+  }
+
+  componentWillUnmount() {
+    const { actions: { leaveHome } } = this.props;
+    leaveHome();
+  }
+
+  render() {
+    const {
+      earningGraphLabels,
+      earningGraphDatasets
+    } = this.props;
+
+    return(
+      <AnimatedView>
+        <div
+          className="row"
+          style={{marginBottom: '5px'}}>
+          <div className="col-md-3">
+            <StatsCard
+              statValue={'3200'}
+              statLabel={'Total Tasks'}
+              icon={<i className="fa fa-check-square-o" />}
+              backColor={'red'}
+            />
+          </div>
+          <div className="col-md-3">
+            <StatsCard
+              statValue={'2200'}
+              statLabel={'Total Messages'}
+              icon={<i className="fa fa-envelope-o" />}
+              backColor={'violet'}
+            />
+          </div>
+          <div className="col-md-3">
+            <StatsCard
+              statValue={'100,320'}
+              statLabel={'Total Profit'}
+              icon={<i className="fa fa-dollar" />}
+              backColor={'blue'}
+            />
+          </div>
+          <div className="col-md-3">
+            <StatsCard
+              statValue={'4567'}
+              statLabel={'Total Documents'}
+              icon={<i className="fa fa-paperclip" />}
+              backColor={'green'}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-12">
+            <EarningGraph
+              labels={earningGraphLabels}
+              datasets={earningGraphDatasets}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-md-12">
+            <WorkProgress />
+          </div>
+        </div>
+      </AnimatedView>
+    );
+  }
+}
+
+export default Home;
