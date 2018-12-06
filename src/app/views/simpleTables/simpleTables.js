@@ -12,12 +12,30 @@ class SimpleTables extends PureComponent {
   //   enterSimpleTables();
   // }
 
-  componentWillUnmount() {
-    const { actions: {  leaveSimpleTables } } = this.props;
-    leaveSimpleTables();
+  // componentWillUnmount() {
+  //   const { actions: {  leaveSimpleTables } } = this.props;
+  //   leaveSimpleTables();
+  // }
+
+  constructor(props) {
+    super(props);
+    this.state = {data: {}}
+  }
+
+  componentDidMount() {
+    let url = 'http://localhost:5000/api?target_domain=2222'
+    fetch(url).then(response => response.json()).then((repos) => {
+      console.log(repos)
+      // console.log(repos.length);
+      this.setState({
+        data: repos
+      });
+      console.log(this.state.data[0])
+    });
   }
 
   render() {
+    const { data } = this.state;
     return(
       <AnimatedView>
         <div className="row">
@@ -47,41 +65,28 @@ class SimpleTables extends PureComponent {
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>User</th>
-                        <th>Date</th>
+                        <th>Domain</th>
+                        <th>Domain Score</th>
+                        <th>Page Score</th>
+                        <th>Page Capture</th>
+                        <th>Email</th>
                         <th>Status</th>
-                        <th>Reason</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>183</td>
-                        <td>John Doe</td>
-                        <td>11-7-2014</td>
-                        <td><span className="label label-success">Approved</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      </tr>
-                      <tr>
-                        <td>219</td>
-                        <td>Jane Doe</td>
-                        <td>11-7-2014</td>
-                        <td><span className="label label-warning">Pending</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      </tr>
-                      <tr>
-                        <td>657</td>
-                        <td>Bob Doe</td>
-                        <td>11-7-2014</td>
-                        <td><span className="label label-primary">Approved</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      </tr>
-                      <tr>
-                        <td>175</td>
-                        <td>Mike Doe</td>
-                        <td>11-7-2014</td>
-                        <td><span className="label label-danger">Denied</span></td>
-                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                      </tr>
+                      {
+                        Object.values(this.state.data).map((item, i) => (
+                          <tr>
+                            <td>{i}</td>
+                            <td>{item.log_domain}</td> 
+                            <td>{item.domain_score}</td>
+                            <td>{item.page_score}</td> 
+                            <td></td>
+                            <td>contact@gmail.com</td> 
+                            <td>CHECK</td>  
+                          </tr>
+                        ))
+                      }
                     </tbody>
                   </table>
                 </div>
