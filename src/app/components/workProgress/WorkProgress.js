@@ -5,6 +5,8 @@ import React, {
 }                       from 'react';
 import PropTypes        from 'prop-types';
 import { AnimatedView } from '../../components';
+import { Button }       from 'react-bootstrap';
+import Modal from 'react-responsive-modal';
 
 class SimpleTables extends PureComponent {
   // componentWillMount() {
@@ -19,11 +21,19 @@ class SimpleTables extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {data: {}}
+    this.state = {data: {}, open: false};
   }
 
+  onOpenModal = () => {
+    this.setState({ open: true });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false });
+  };
+
   componentDidMount() {
-    let url = 'http://localhost:5000/api?target_domain=ktbnetbank'
+    let url = 'http://localhost:5000/api?target_domain=ktbnetbank.com'
     fetch(url).then(response => response.json()).then((repos) => {
       console.log(repos)
       // console.log(repos.length);
@@ -35,7 +45,7 @@ class SimpleTables extends PureComponent {
   }
 
   render() {
-    // const { data } = this.state;
+    const { open } = this.state;
     const badge_name = ['badge-success', 'badge-info', 'badge-warning', 'badge-danger', 'badge-danger'];
     return(
       <AnimatedView>
@@ -70,35 +80,47 @@ class SimpleTables extends PureComponent {
                         <th>Domain Score</th>
                         <th>Page Score</th>
                         <th>Page Capture</th>
-                        <th>Email</th>
+                        {/* <th>Email</th> */}
                         <th>Status</th>
                       </tr>
                     </thead>
-                    {/* <tbody>
+                    <tbody>
+                      <tr>
+                        <td>0</td>
+                        <td>thelonelyghost.com</td> 
+                        <td><span className={"badge " + badge_name[Math.floor(parseInt("25")/25)]}>{parseInt("25")}%</span></td>
+                        <td><span className={"badge " + badge_name[Math.floor(parseInt("20.380906282230647")/25)]}>{parseInt("20.380906282230647")}%</span></td>
+                        <td>
+                          <div>
+                            <Button bsStyle="link" onClick={this.onOpenModal}>image</Button>
+                            <Modal open={open} onClose={this.onCloseModal} center>
+                              <h2>Simple centered modal</h2>
+                              <p>
+                                PicturePicturePicturePicturePicturePicture
+                                PicturePicturePicturePicturePicturePicture
+                                PicturePicturePicturePicturePicturePicture
+                              </p>
+                            </Modal>
+                          </div>
+                        </td>
+                        {/* <td>contact@gmail.com</td>  */}
+                        <td><Button bsStyle="primary">check</Button></td>  
+                      </tr>
                       {
                         Object.values(this.state.data).map((item, i) => (
                           <tr>
                             <td>{i}</td>
                             <td>{item.log_domain}</td> 
-                            <td><span className={"badge " + badge_name[Math.floor({item.domain_score})]}>{item.domain_score}%</span></td>
-                            <td><span className={"badge " + badge_name[Math.floor({item.page_score})]}>{item.page_score}%</span></td>
-                            <td></td>
-                            <td>contact@gmail.com</td> 
-                            <td>CHECK</td>  
+                            <td><span className={"badge " + badge_name[Math.floor(parseInt(item.domain_score)/25)]}>{parseInt(item.domain_score)}%</span></td>
+                            <td><span className={"badge " + badge_name[Math.floor(parseInt(item.html_score)/25)]}>{parseInt(item.html_score)}%</span></td>
+                            <td>
+                              <Button bsStyle="link">image</Button>
+                            </td>
+                            {/* <td>contact@gmail.com</td>  */}
+                            <td><Button bsStyle="primary">check</Button></td>  
                           </tr>
                         ))
                       }
-                    </tbody> */}
-                    <tbody>
-                      <tr>
-                        {/* <td><span className={"badge " + badge_name[Math.floor({i})]}>{i}%</span></td> */}
-                        <td>2</td> 
-                        <td>3</td>
-                        <td>4</td> 
-                        <td>5</td>
-                        <td>contact@gmail.com</td> 
-                        <td>CHECK</td>  
-                      </tr>
                     </tbody>
                   </table>
                 </div>
