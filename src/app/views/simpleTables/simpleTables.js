@@ -23,7 +23,7 @@ class SimpleTables extends PureComponent {
   }
 
   componentDidMount() {
-    let url = 'http://localhost:5000/api?target_domain=2222'
+    let url = 'http://localhost:5000/api?target_domain=ktbnetbank'
     fetch(url).then(response => response.json()).then((repos) => {
       console.log(repos)
       // console.log(repos.length);
