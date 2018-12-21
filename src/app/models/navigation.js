@@ -26,11 +26,11 @@ export const navigation = {
           linkTo: '/',
           faIconName: 'fa-eye'
         },
-        {
-          name: 'Report Table',
-          linkTo: '/simpleTables',
-          faIconName: 'fa-eye'
-        }
+        // {
+        //   name: 'Report Table',
+        //   linkTo: '/simpleTables',
+        //   faIconName: 'fa-eye'
+        // }
       ]
     }
   ]

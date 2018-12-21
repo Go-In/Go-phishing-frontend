@@ -63,7 +63,7 @@ class Home extends PureComponent {
 
     return(
       <AnimatedView>
-        <div
+        {/* <div
           className="row"
           style={{marginBottom: '5px'}}>
           <div className="col-md-3">
@@ -107,7 +107,7 @@ class Home extends PureComponent {
               datasets={earningGraphDatasets}
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="row">
           <div className="col-md-12">
